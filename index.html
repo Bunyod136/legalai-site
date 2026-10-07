@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LegalAI Space — AI huquqiy yordamchi</title>
+  <meta name="description" content="Shartnoma va sud hujjatlarini O'zbekiston qonunchiligi asosida AI bilan tahlil qiling, xatarlarni toping va sudga tayyor arizalarni tuzing.">
+  <meta property="og:title" content="LegalAI Space">
+  <meta property="og:description" content="Sudga tayyorgarlik — yuristga katta pul to'lamasdan.">
+  <meta property="og:image" content="assets/logo-full.png">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <style>
+    :root {
+      --bg: #f5f6f8; --surface: #fff; --surface-2: #eef1f6; --border: #e2e5ea; --text: #16202e; --muted: #5f6b7a;
+      --primary: #1d3a6e; --primary-2: #2b5299; --accent: #b8892c; --glow: rgba(43, 82, 153, .14);
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #0d1219; --surface: #151c26; --surface-2: #1b2532; --border: #263243; --text: #e6ebf2;
+        --muted: #9aa7b8; --primary: #3f6fc4; --primary-2: #6b96e0; --accent: #d6a647; --glow: rgba(79, 127, 209, .18);
+        color-scheme: dark; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    a { color: var(--primary-2); text-decoration: none; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+    header { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--surface) 88%, transparent);
+      backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+    header .wrap { display: flex; align-items: center; gap: 16px; min-height: 60px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--text); font-size: 1.1rem; }
+    .brand img { width: 34px; height: 34px; }
+    header nav { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+    header nav a.link { color: var(--muted); padding: 6px 10px; }
+    @media (max-width: 640px) { header nav a.link { display: none; } }
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 11px 20px; border-radius: 9px;
+      background: var(--primary); color: #fff; font-weight: 600; border: 1px solid transparent; white-space: nowrap; }
+    .btn:hover { background: var(--primary-2); }
+    .btn.ghost { background: transparent; color: var(--text); border-color: var(--border); }
+    .btn.gold { background: var(--accent); color: #1a1406; }
+    .btn.sm { padding: 7px 14px; font-size: .9rem; }
+
+    .hero { padding: 72px 0 56px; text-align: center; background: radial-gradient(ellipse 60% 50% at 50% 0%, var(--glow), transparent); }
+    .hero img { width: 112px; height: 112px; }
+    .hero h1 { font-size: clamp(1.9rem, 4.5vw, 3rem); line-height: 1.15; margin: 18px auto 16px; max-width: 820px; letter-spacing: -.01em; }
+    .hero p { color: var(--muted); font-size: 1.15rem; max-width: 680px; margin: 0 auto 28px; }
+    .cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .note { font-size: .88rem; color: var(--muted); margin-top: 14px; }
+
+    section { padding: 56px 0; }
+    section h2 { font-size: 1.7rem; text-align: center; margin: 0 0 8px; }
+    section .sub { text-align: center; color: var(--muted); margin: 0 auto 32px; max-width: 640px; }
+    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
+    .card .ic { font-size: 1.6rem; }
+    .card h3 { margin: 10px 0 6px; font-size: 1.05rem; }
+    .card p { margin: 0; color: var(--muted); font-size: .95rem; }
+
+    .steps { counter-reset: s; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .steps .card::before { counter-increment: s; content: counter(s); display: grid; place-items: center; width: 34px; height: 34px;
+      border-radius: 50%; background: var(--primary); color: #fff; font-weight: 700; margin-bottom: 8px; }
+
+    .plans { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); align-items: stretch; }
+    .plan { display: flex; flex-direction: column; }
+    .plan.featured { border: 2px solid var(--accent); }
+    .plan .price { font-size: 1.9rem; font-weight: 800; margin: 6px 0 2px; }
+    .plan .per { color: var(--muted); font-size: .9rem; }
+    .plan ul { padding-left: 18px; margin: 14px 0 20px; flex: 1; color: var(--muted); font-size: .95rem; }
+    .plan li { margin: 5px 0; }
+    .tag { display: inline-block; font-size: .75rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .04em; }
+
+    .trust { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .disclaimer { border-left: 3px solid var(--accent); background: var(--surface-2); padding: 12px 16px; border-radius: 8px;
+      color: var(--muted); font-size: .9rem; max-width: 820px; margin: 0 auto; }
+    footer { padding: 28px 0 36px; color: var(--muted); font-size: .88rem; text-align: center; }
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="brand" href="./"><img src="assets/logo.png" alt="">LegalAI Space</a>
+    <nav>
+      <a class="link" href="#imkoniyatlar">Imkoniyatlar</a>
+      <a class="link" href="#tariflar">Tariflar</a>
+      <a class="btn sm ghost" data-app="/login" href="#">Kirish</a>
+      <a class="btn sm" data-app="/register" href="#">Boshlash</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="wrap">
+      <img src="assets/logo.png" alt="LegalAI Space logotipi">
+      <h1>Sudga tayyorgarlik — yuristga katta pul to'lamasdan</h1>
+      <p>Shartnoma, dalolatnoma, buxgalteriya hisobotlari va sud qarorlarini yuklang. AI ularni Fuqarolik kodeksi, FPK va IPK asosida tahlil qiladi, xatarlarni ko'rsatadi va sudga tayyor hujjatlarni yozib beradi.</p>
+      <div class="cta">
+        <a class="btn gold" data-app="/register" href="#">3 kun bepul sinab ko'rish</a>
+        <a class="btn ghost" href="#imkoniyatlar">Batafsil</a>
+      </div>
+      <div class="note">Karta talab qilinmaydi · Hujjatlar shifrlangan holda saqlanadi</div>
+    </div>
+  </div>
+
+  <section id="imkoniyatlar">
+    <div class="wrap">
+      <h2>Bitta joyda — butun ish</h2>
+      <p class="sub">Har bir nizo uchun alohida papka: hujjatlar, AI bilan suhbat, tahlillar va tegishli qonun moddalari.</p>
+      <div class="grid">
+        <div class="card"><div class="ic">📁</div><h3>Ish papkalari</h3><p>PDF (skanerlangan ham), Word, Excel, rasm — barchasini yuklang. AI hammasini birga o'qiydi.</p></div>
+        <div class="card"><div class="ic">🧠</div><h3>Yurist kabi fikrlaydi</h3><p>Faktlar → huquqiy masala → normalar → tatbiq → xulosa va strategiya.</p></div>
+        <div class="card"><div class="ic">⚠️</div><h3>Xatarlar va zaif nuqtalar</h3><p>Yutqazishga olib kelishi mumkin bo'lgan holatlar, yetishmayotgan dalillar va muddatlar.</p></div>
+        <div class="card"><div class="ic">📝</div><h3>Hujjat Studio</h3><p>Da'vo arizasi, iltimosnoma, e'tiroz, apellyatsiya va kassatsiya shikoyati — Word va PDF formatida.</p></div>
+        <div class="card"><div class="ic">📊</div><h3>Buxgalteriya hujjatlari</h3><p>Akt-sverka, schyot-faktura va hisobotlardan qarzdorlik va nomuvofiqliklarni topadi.</p></div>
+        <div class="card"><div class="ic">⚖️</div><h3>Qonun moddalariga havola</h3><p>Har bir xulosa tegishli kodeks moddasi bilan asoslanadi — lex.uz manbasiga havola bilan.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust">
+    <div class="wrap">
+      <h2>Qanday ishlaydi</h2>
+      <p class="sub">Uch qadam — va sudga tayyor hujjat qo'lingizda.</p>
+      <div class="steps">
+        <div class="card"><h3>Ish oching va hujjatlarni yuklang</h3><p>Fuqarolik yoki iqtisodiy sud — tanlang, fayllarni tashlang.</p></div>
+        <div class="card"><h3>Tahlil va savollar</h3><p>AI xatarlarni ko'rsatadi, siz istalgan savolni berasiz.</p></div>
+        <div class="card"><h3>Hujjatni tayyorlang</h3><p>Studio'da arizani yarating, tahrirlang va Word/PDF qilib yuklab oling.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tariflar">
+    <div class="wrap">
+      <h2>Tariflar</h2>
+      <p class="sub">Oylik obuna, Payme yoki Click orqali. Istalgan vaqtda to'xtatish mumkin.</p>
+      <div class="plans">
+        <div class="card plan">
+          <h3>Boshlang'ich</h3>
+          <div class="price">99 000 so'm</div><div class="per">30 kun</div>
+          <ul><li>5 soatda 25 ta AI so'rov</li><li>5 ta ish papkasi</li><li>Oyiga 60 ta hujjat yuklash</li><li>Oyiga 15 ta hujjat generatsiyasi</li></ul>
+          <a class="btn ghost" data-app="/register" href="#">Boshlash</a>
+        </div>
+        <div class="card plan featured">
+          <span class="tag">Ommabop</span>
+          <h3>Professional</h3>
+          <div class="price">249 000 so'm</div><div class="per">30 kun</div>
+          <ul><li>5 soatda 100 ta AI so'rov</li><li>Chuqur fikrlash rejimi</li><li>30 ta ish papkasi</li><li>Oyiga 400 ta yuklash, 80 ta generatsiya</li></ul>
+          <a class="btn gold" data-app="/register" href="#">Boshlash</a>
+        </div>
+        <div class="card plan">
+          <h3>Biznes Max</h3>
+          <div class="price">690 000 so'm</div><div class="per">30 kun</div>
+          <ul><li>AI to'xtovsiz ishlaydi</li><li>Maksimal fikrlash va o'z-o'zini tekshirish</li><li>Cheksiz papka, yuklash va generatsiya</li></ul>
+          <a class="btn ghost" data-app="/register" href="#">Boshlash</a>
+        </div>
+      </div>
+      <p class="note" style="text-align:center">Narxlar o'zgarishi mumkin — joriy narxlar ilovaning «Tarif va to'lov» sahifasida.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="disclaimer">⚠️ LegalAI Space yuristning o'rnini bosmaydi. AI javoblari ma'lumot uchun; muhim qarorlar va sudga murojaat qilishdan oldin malakali advokat bilan maslahatlashing.</div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">© LegalAI Space · <a data-app="/terms" href="#">Foydalanish shartlari va maxfiylik</a></div>
+</footer>
+
+<script>
+  // Ilova manzili — bitta joyda (subdomen tayyor bo'lgach o'zgartiring)
+  const APP_URL = "https://app.example.uz";
+  document.querySelectorAll("[data-app]").forEach(a => { a.href = APP_URL + a.dataset.app; });
+</script>
+</body>
+</html>
